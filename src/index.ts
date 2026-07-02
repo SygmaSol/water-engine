@@ -1,4 +1,4 @@
-export const VERSION = "0.3.0";
+export const VERSION = "0.4.0";
 
 export * from "./types.js";
 export {
@@ -21,3 +21,12 @@ export {
   marginalCost,
 } from "./tariff.js";
 export { FIXTURE_RATE_SETS, pickRateSet, assertRateSet, fetchRateSets } from "./rates.js";
+export {
+  BILL_EXTRACTION_PROMPT,
+  BILL_EXTRACTION_SCHEMA,
+  parseExtraction,
+  reconcileExtraction,
+  detectBiller,
+  ExtractionValidationError,
+} from "./extract.js";
+export type { ExtractedBill, ExtractedLine, ReconciliationResult } from "./extract.js";
