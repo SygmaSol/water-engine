@@ -12,7 +12,7 @@ import {
   round2,
   sanitation,
   waterQuota
-} from "./chunk-DGGGE2F4.js";
+} from "./chunk-WQSFVEDQ.js";
 
 // src/estimate.ts
 var LANZAROTE_POOL_EVAPORATION = {
@@ -250,7 +250,7 @@ function detectBiller(bill) {
 }
 
 // src/index.ts
-var VERSION = "0.4.1";
+var VERSION = "0.4.2";
 export {
   BILL_EXTRACTION_PROMPT,
   BILL_EXTRACTION_SCHEMA,

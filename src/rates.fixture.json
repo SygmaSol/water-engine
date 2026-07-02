@@ -156,22 +156,23 @@
           "blocks": [
             {
               "upTo": 10,
-              "rate": 0.51
+              "rate": 0.6
             },
             {
               "upTo": 30,
-              "rate": 0.71
+              "rate": 1.01
             },
             {
               "upTo": 40,
-              "rate": 1.2
+              "rate": 1.75
             },
             {
               "upTo": null,
               "rate": 2.09
             }
           ],
-          "source": "official-sheet"
+          "source": "bill-validated",
+          "notes": "Reduced (familia numerosa/jubilados) customers pay the STANDARD domestic loss rates on the Diferencia/Perdida line, NOT reduced ones — the reduced discount applies to their own supply + sanitation only. Proven by a real reduced bill (Club, 2 Jul 2026): loss 10@0.60 + 4@1.01. Supersedes the misleading official-sheet 0.51/0.71 reduced-loss figures."
         },
         "industrial_tourist": {
           "mode": "flat",
@@ -496,15 +497,15 @@
           "blocks": [
             {
               "upTo": 10,
-              "rate": 0.59
+              "rate": 0.69
             },
             {
               "upTo": 30,
-              "rate": 0.82
+              "rate": 1.16
             },
             {
               "upTo": 40,
-              "rate": 1.38
+              "rate": 2.01
             },
             {
               "upTo": null,

@@ -109,6 +109,15 @@ describe("fullBill — validated per-line IGIC anchors", () => {
     expect(b.base7).toBe(4.0); // quota only — septic = zero sanitation
     expect(b.total).toBe(round2(25.57 + 43.7 + 4.0 + 0.28));
   });
+  it("reduced case: reduced SUPPLY (0.51/0.71) but STANDARD loss rates (0.60/1.01) = 38.13 EUR", () => {
+    // A real reduced (familia numerosa) bill proved the loss line uses the standard domestic loss
+    // rates, not reduced ones — the reduced discount is on supply + sanitation only. Anonymised.
+    const b = fullBill({ rates, category: "domestic_reduced", m3: 21, lossM3: 14, biller: "club", onMainsSewer: true });
+    expect(b.lines.find((l) => l.kind === "consumption")!.amount).toBe(12.91); // 10@0.51 + 11@0.71
+    expect(b.lines.find((l) => l.kind === "loss")!.amount).toBe(10.04); // 10@0.60 + 4@1.01 (STANDARD loss)
+    expect(b.lines.find((l) => l.kind === "sanitation_variable")!.amount).toBe(8.19); // 21 @ 0.39 reduced
+    expect(b.total).toBe(38.13);
+  });
   it("tourist case: flat 2.91 supply, 40mm quotas, flat 1.88 loss, industrial sanitation", () => {
     const b = fullBill({ rates, category: "industrial_tourist", m3: 20, lossM3: 12, biller: "club", caliber: "40mm" });
     expect(b.lines.find((l) => l.kind === "consumption")!.amount).toBe(58.2);

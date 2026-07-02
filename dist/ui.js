@@ -1,7 +1,7 @@
 import {
   fullBill,
   pickRateSet
-} from "./chunk-DGGGE2F4.js";
+} from "./chunk-WQSFVEDQ.js";
 
 // src/ui/BillCalculator.tsx
 import { useEffect, useId, useMemo, useState } from "react";

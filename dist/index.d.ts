@@ -279,6 +279,6 @@ declare function reconcileExtraction(bill: ExtractedBill, rates: RateSet): Recon
 /** Heuristic biller detection from line concepts, as a fallback when the model returns null. */
 declare function detectBiller(bill: ExtractedBill): Biller | null;
 
-declare const VERSION = "0.4.1";
+declare const VERSION = "0.4.2";
 
 export { BILL_EXTRACTION_PROMPT, BILL_EXTRACTION_SCHEMA, Biller, Block, Caliber, Category, type CostRange, type ExtractedBill, type ExtractedLine, ExtractionValidationError, FIXTURE_RATE_SETS, FullBillInputs, FullBillResult, LANZAROTE_POOL_EVAPORATION, MarginalCostResult, type PoolDims, type PoolShape, QuotaRow, RateSet, type ReconciliationResult, Tier1Field, VERSION, activityCost, assertRateSet, blockCharge, consumptionCharge, detectBiller, fetchRateSets, fullBill, lossCharge, marginalCost, parseExtraction, pickRateSet, poolVolume, reconcileExtraction, resolveQuota, round2, sanitation, topUpCost, topUpLoss, waterQuota };
