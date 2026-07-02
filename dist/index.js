@@ -168,8 +168,14 @@ Read these fields exactly as printed:
   jubilados / pensionistas / reduced), or "industrial_tourist" (Industrial/Turistica). null if unclear.
 - periodStart / periodEnd: the printed billing period dates, yyyy-mm-dd.
 - m3Consumed: the ACTUAL metered consumption in m3 (the "consumo"), NOT including any loss allocation.
-- lossM3: the "Diferencia(s) contador general" or "Perdida domestica/turistica" allocation in m3.
-  Use 0 if there is no such line.
+- lossM3: the "Diferencia(s) contador general" / "Perdida domestica/turistica" allocation in m3.
+  CRITICAL: read the value from the CANTIDAD (quantity) column, NOT the "Bloque" column. The Bloque
+  column shows a block indicator like "1 (0 - 10)" or "2 (11 - 30)" \u2014 that is NOT the quantity. The
+  loss quantity is very often a DECIMAL (e.g. 1,90 or 6,50 m3 \u2014 Spanish bills use a comma decimal).
+  If the loss spans several block rows ("Perdida domestica 1 (0-10)", "2 (11-30)", ...), SUM the
+  cantidad of every such row. Use 0 only if there is genuinely no Diferencia/Perdida line.
+  Sanity check: consumption block amounts equal cantidad x precio, and so does each loss row \u2014 use
+  that to read the right number (amount / precio = cantidad).
 - meterCaliber: the meter calibre (e.g. "13-15mm", "20mm", "40mm"). null if not shown.
 - onMainsSewer: true if the bill has saneamiento (sewerage) lines, false if it has none.
 - lines: every charge line, with its printed concept text, quantity, unit rate and amount (euros).
@@ -244,7 +250,7 @@ function detectBiller(bill) {
 }
 
 // src/index.ts
-var VERSION = "0.4.0";
+var VERSION = "0.4.1";
 export {
   BILL_EXTRACTION_PROMPT,
   BILL_EXTRACTION_SCHEMA,
