@@ -106,7 +106,9 @@ export function topUpCost(
     highEuros: Math.max(low.totalEuros, high.totalEuros),
     assumptions: [
       "On top of normal home use: low bound prices the water from the block-2 position (past the first 10 m3 of the period), high bound entirely in the top block (past 40 m3).",
-      onMainsSewer ? "Includes sewerage on consumption (mains sewer)." : "No sewerage (septic tank).",
+      onMainsSewer
+        ? "Includes sewerage on consumption (bills that carry saneamiento lines — most, but not all; if your bill has no sewerage lines the real figure is lower)."
+        : "No sewerage included (a bill without saneamiento lines — septic tanks, and some mains-sewer homes Canal doesn't bill sewerage for).",
     ],
     fieldsUsed: low.fieldsUsed,
   };

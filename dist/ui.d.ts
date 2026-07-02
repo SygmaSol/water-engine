@@ -1,5 +1,5 @@
 import * as react from 'react';
-import { R as RateSet, C as Category } from './types-DDyA1WQx.js';
+import { R as RateSet, C as Category } from './types-FomQArgM.js';
 
 interface CalculatorDictionary {
     title: string;
@@ -22,6 +22,7 @@ interface CalculatorDictionary {
     caliberLabel: string;
     caliberHelp: string;
     sewerLabel: string;
+    sewerHelp: string;
     sewerOn: string;
     sewerOff: string;
     lossLabel: string;

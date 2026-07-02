@@ -135,7 +135,8 @@ export function sanitation(
 
 /**
  * Assemble a full bill: two parallel charge streams (supply + loss) with biller-dependent loss
- * handling, quotas, optional sanitation (septic = none; variable on actual consumption only),
+ * handling, quotas, optional sanitation (none when the bill has no saneamiento lines — septic or
+ * unbilled mains-sewer homes; variable on actual consumption only),
  * and per-line IGIC (0% consumption/loss, 7% quotas/sanitation) applied on the summed 7% base —
  * exactly how the 49-bill corpus reconciles to the cent.
  */

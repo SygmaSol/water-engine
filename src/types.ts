@@ -127,7 +127,7 @@ export interface FullBillInputs {
 export interface MarginalCostResult {
   totalEuros: number;
   supplyEuros: number;
-  /** Sanitation-variable component incl. its IGIC (0 when on a septic tank). */
+  /** Sanitation-variable component incl. its IGIC (0 when the bill carries no saneamiento lines — septic tanks, and some mains-sewer homes). */
   sanitationEuros: number;
   volumeM3: number;
   /** Cumulative period position (m3) the volume started at, including Canal-merged loss where applicable. */

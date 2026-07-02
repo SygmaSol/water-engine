@@ -191,6 +191,7 @@ export function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCat
 
       <fieldset className="mt-4">
         <legend className="text-sm font-semibold">{t.sewerLabel}</legend>
+        <p className="text-xs text-slate-500">{t.sewerHelp}</p>
         <div className="mt-1 grid gap-2 sm:grid-cols-2">
           {[true, false].map((v) => (
             <label

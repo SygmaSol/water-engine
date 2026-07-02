@@ -12,7 +12,7 @@ import {
   round2,
   sanitation,
   waterQuota
-} from "./chunk-WQSFVEDQ.js";
+} from "./chunk-RUVGECG6.js";
 
 // src/estimate.ts
 var LANZAROTE_POOL_EVAPORATION = {
@@ -75,7 +75,7 @@ function topUpCost(litres, category, rates, opts = {}) {
     highEuros: Math.max(low.totalEuros, high.totalEuros),
     assumptions: [
       "On top of normal home use: low bound prices the water from the block-2 position (past the first 10 m3 of the period), high bound entirely in the top block (past 40 m3).",
-      onMainsSewer ? "Includes sewerage on consumption (mains sewer)." : "No sewerage (septic tank)."
+      onMainsSewer ? "Includes sewerage on consumption (bills that carry saneamiento lines \u2014 most, but not all; if your bill has no sewerage lines the real figure is lower)." : "No sewerage included (a bill without saneamiento lines \u2014 septic tanks, and some mains-sewer homes Canal doesn't bill sewerage for)."
     ],
     fieldsUsed: low.fieldsUsed
   };

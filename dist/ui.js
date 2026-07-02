@@ -1,7 +1,7 @@
 import {
   fullBill,
   pickRateSet
-} from "./chunk-WQSFVEDQ.js";
+} from "./chunk-RUVGECG6.js";
 
 // src/ui/BillCalculator.tsx
 import { useEffect, useId, useMemo, useState } from "react";
@@ -157,6 +157,7 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
     ] }),
     /* @__PURE__ */ jsxs("fieldset", { className: "mt-4", children: [
       /* @__PURE__ */ jsx("legend", { className: "text-sm font-semibold", children: t.sewerLabel }),
+      /* @__PURE__ */ jsx("p", { className: "text-xs text-slate-500", children: t.sewerHelp }),
       /* @__PURE__ */ jsx("div", { className: "mt-1 grid gap-2 sm:grid-cols-2", children: [true, false].map((v) => /* @__PURE__ */ jsxs(
         "label",
         {
@@ -273,9 +274,10 @@ var en = {
   billers: { club: "Club Lanzarote", canal: "Canal Gesti\xF3n" },
   caliberLabel: "Meter size",
   caliberHelp: "On your bill as 'calibre'. Most homes are 13\u201315 mm.",
-  sewerLabel: "Sewerage",
-  sewerOn: "On the mains sewer",
-  sewerOff: "Septic tank (no sewerage charges)",
+  sewerLabel: "Sewerage (saneamiento) on your bill?",
+  sewerHelp: "Check a recent bill \u2014 it's the only reliable guide. Septic-tank homes never have sewerage lines, and some mains-sewer homes aren't billed sewerage on the water bill either.",
+  sewerOn: "My bill has sewerage lines",
+  sewerOff: "No sewerage lines on my bill",
   lossLabel: "Network-loss m\xB3 on your bill (optional)",
   lossHelp: "The 'Diferencia contador general' line \u2014 your share of the community's general-meter difference. Only your bill knows it.",
   lossPlaceholder: "e.g. 12",
@@ -316,9 +318,10 @@ var es = {
   billers: { club: "Club Lanzarote", canal: "Canal Gesti\xF3n" },
   caliberLabel: "Calibre del contador",
   caliberHelp: "Aparece en tu factura como 'calibre'. La mayor\xEDa de viviendas: 13\u201315 mm.",
-  sewerLabel: "Saneamiento",
-  sewerOn: "Conectado al alcantarillado",
-  sewerOff: "Fosa s\xE9ptica (sin saneamiento)",
+  sewerLabel: "\xBFSaneamiento en tu factura?",
+  sewerHelp: "Compru\xE9balo en una factura reciente: es la \xFAnica gu\xEDa fiable. Las viviendas con fosa s\xE9ptica nunca llevan saneamiento, y algunas conectadas al alcantarillado tampoco lo pagan en la factura del agua.",
+  sewerOn: "Mi factura incluye saneamiento",
+  sewerOff: "Mi factura no lleva l\xEDneas de saneamiento",
   lossLabel: "m\xB3 de p\xE9rdida de red en tu factura (opcional)",
   lossHelp: "La l\xEDnea 'Diferencia contador general': tu parte de la diferencia del contador general de la comunidad. Solo tu factura la conoce.",
   lossPlaceholder: "p. ej. 12",

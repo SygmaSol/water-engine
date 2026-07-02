@@ -12,6 +12,7 @@ export interface CalculatorDictionary {
   caliberLabel: string;
   caliberHelp: string;
   sewerLabel: string;
+  sewerHelp: string;
   sewerOn: string;
   sewerOff: string;
   lossLabel: string;
@@ -55,9 +56,11 @@ export const en: CalculatorDictionary = {
   billers: { club: "Club Lanzarote", canal: "Canal Gestión" },
   caliberLabel: "Meter size",
   caliberHelp: "On your bill as 'calibre'. Most homes are 13–15 mm.",
-  sewerLabel: "Sewerage",
-  sewerOn: "On the mains sewer",
-  sewerOff: "Septic tank (no sewerage charges)",
+  sewerLabel: "Sewerage (saneamiento) on your bill?",
+  sewerHelp:
+    "Check a recent bill — it's the only reliable guide. Septic-tank homes never have sewerage lines, and some mains-sewer homes aren't billed sewerage on the water bill either.",
+  sewerOn: "My bill has sewerage lines",
+  sewerOff: "No sewerage lines on my bill",
   lossLabel: "Network-loss m³ on your bill (optional)",
   lossHelp: "The 'Diferencia contador general' line — your share of the community's general-meter difference. Only your bill knows it.",
   lossPlaceholder: "e.g. 12",
@@ -100,9 +103,11 @@ export const es: CalculatorDictionary = {
   billers: { club: "Club Lanzarote", canal: "Canal Gestión" },
   caliberLabel: "Calibre del contador",
   caliberHelp: "Aparece en tu factura como 'calibre'. La mayoría de viviendas: 13–15 mm.",
-  sewerLabel: "Saneamiento",
-  sewerOn: "Conectado al alcantarillado",
-  sewerOff: "Fosa séptica (sin saneamiento)",
+  sewerLabel: "¿Saneamiento en tu factura?",
+  sewerHelp:
+    "Compruébalo en una factura reciente: es la única guía fiable. Las viviendas con fosa séptica nunca llevan saneamiento, y algunas conectadas al alcantarillado tampoco lo pagan en la factura del agua.",
+  sewerOn: "Mi factura incluye saneamiento",
+  sewerOff: "Mi factura no lleva líneas de saneamiento",
   lossLabel: "m³ de pérdida de red en tu factura (opcional)",
   lossHelp: "La línea 'Diferencia contador general': tu parte de la diferencia del contador general de la comunidad. Solo tu factura la conoce.",
   lossPlaceholder: "p. ej. 12",
