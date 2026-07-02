@@ -119,6 +119,77 @@ interface MarginalCostResult {
     fieldsUsed: Tier1Field[];
 }
 
+/**
+ * Lanzarote pool evaporation benchmark — SOURCED from Canary Detect's published guide
+ * (do not change these numbers without a citable source).
+ */
+declare const LANZAROTE_POOL_EVAPORATION: {
+    readonly mmPerDayMin: 3;
+    readonly mmPerDayMax: 7;
+    readonly cmPerWeekSummerMin: 2;
+    readonly cmPerWeekSummerMax: 4;
+    /** Losing more than this per week (calm weather) suggests a leak worth checking. */
+    readonly leakSuspicionCmPerWeek: 5;
+    readonly sourceName: "Canary Detect — How to check for pool leaks in Lanzarote";
+    readonly sourceUrl: "https://canary-detect.com/blog/how-to-check-for-pool-leaks-lanzarote";
+};
+type PoolShape = "rectangular" | "circular" | "oval" | "kidney";
+interface PoolDims {
+    lengthM?: number;
+    widthM?: number;
+    diameterM?: number;
+    avgDepthM: number;
+}
+/**
+ * Pool volume in litres. Kidney uses the pool-industry 0.75 bounding-box approximation
+ * (an estimate by nature — label it as such in UIs).
+ */
+declare function poolVolume(shape: PoolShape, dims: PoolDims): number;
+/**
+ * Water lost to a level drop: surface area x drop depth. Only surface dimensions and the drop
+ * matter for a top-up (total depth is irrelevant). 8m x 4m x 2cm = 640 litres.
+ */
+declare function topUpLoss(lengthM: number, widthM: number, dropCm: number): number;
+interface CostRange {
+    lowEuros: number;
+    highEuros: number;
+    /** Explicit, deterministic assumptions behind the range (UI copy builds on these). */
+    assumptions: string[];
+    fieldsUsed: Tier1Field[];
+}
+/**
+ * Cost of a top-up volume via the tariff engine.
+ * - onTopOfHomeUse=true (default, honest range): the top-up sits ON TOP of normal home use, so it
+ *   lands in the dearer blocks — low bound prices it from the block-2 position (past the first
+ *   10 m3), high bound entirely in the top block (past 40 m3). Flat categories collapse the range.
+ * - onTopOfHomeUse=false: priced from an empty period (block 1 upwards) — a lower bound in practice.
+ */
+declare function topUpCost(litres: number, category: Category, rates: RateSet, opts?: {
+    onTopOfHomeUse?: boolean;
+    onMainsSewer?: boolean;
+    caliber?: Caliber;
+}): CostRange;
+/**
+ * Cost of a typical-use activity (litres figure comes from the typical_use reference — the SSOT;
+ * never hardcode litres here). Priced marginally at the block-2 position by default: the stated,
+ * deterministic assumption for "what does a bath cost me?" style answers.
+ */
+declare function activityCost(args: {
+    litresPerUnit: number;
+    count: number;
+    category: Category;
+    rates: RateSet;
+    onMainsSewer?: boolean;
+    caliber?: Caliber;
+    /** Cumulative period position to price from; default 10 (block-2 marginal). */
+    priorPeriodM3?: number;
+}): {
+    euros: number;
+    litres: number;
+    assumptions: string[];
+    fieldsUsed: Tier1Field[];
+};
+
 /** Round to 2 decimal places (euro cents). Bills round each line to the cent. */
 declare function round2(n: number): number;
 interface BlockBreakdownItem {
@@ -201,6 +272,6 @@ declare function fetchRateSets(opts: {
     fetchImpl?: typeof fetch;
 }): Promise<RateSet[]>;
 
-declare const VERSION = "0.1.0";
+declare const VERSION = "0.2.0";
 
-export { type BillLine, type Biller, type Block, type Caliber, type Category, FIXTURE_RATE_SETS, type FullBillInputs, type FullBillResult, type MarginalCostResult, type QuotaRow, type RateComponent, type RateSet, type RateSource, type Tier1Field, VERSION, assertRateSet, blockCharge, consumptionCharge, fetchRateSets, fullBill, lossCharge, marginalCost, pickRateSet, resolveQuota, round2, sanitation, waterQuota };
+export { type BillLine, type Biller, type Block, type Caliber, type Category, type CostRange, FIXTURE_RATE_SETS, type FullBillInputs, type FullBillResult, LANZAROTE_POOL_EVAPORATION, type MarginalCostResult, type PoolDims, type PoolShape, type QuotaRow, type RateComponent, type RateSet, type RateSource, type Tier1Field, VERSION, activityCost, assertRateSet, blockCharge, consumptionCharge, fetchRateSets, fullBill, lossCharge, marginalCost, pickRateSet, poolVolume, resolveQuota, round2, sanitation, topUpCost, topUpLoss, waterQuota };

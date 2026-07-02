@@ -1,6 +1,14 @@
-export const VERSION = "0.1.0";
+export const VERSION = "0.2.0";
 
 export * from "./types.js";
+export {
+  LANZAROTE_POOL_EVAPORATION,
+  poolVolume,
+  topUpLoss,
+  topUpCost,
+  activityCost,
+} from "./estimate.js";
+export type { PoolShape, PoolDims, CostRange } from "./estimate.js";
 export {
   round2,
   blockCharge,
