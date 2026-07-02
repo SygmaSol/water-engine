@@ -1,0 +1,29 @@
+{
+  "name": "water-engine",
+  "version": "0.0.1",
+  "description": "Lanzarote water tariff + estimate engine (validated two-stream model). Rate numbers live in the Water Knowledge store; this package is the maths.",
+  "repository": "github:SygmaSol/water-engine",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --sourcemap",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.9"
+  }
+}
