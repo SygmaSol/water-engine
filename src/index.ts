@@ -1,6 +1,15 @@
-export const VERSION = "0.0.1";
+export const VERSION = "0.1.0";
 
-/** Round to 2 decimal places (euro cents). All engine money maths rounds per line, like the bills do. */
-export function round2(n: number): number {
-  return Math.round((n + Number.EPSILON) * 100) / 100;
-}
+export * from "./types.js";
+export {
+  round2,
+  blockCharge,
+  consumptionCharge,
+  lossCharge,
+  resolveQuota,
+  waterQuota,
+  sanitation,
+  fullBill,
+  marginalCost,
+} from "./tariff.js";
+export { FIXTURE_RATE_SETS, pickRateSet, assertRateSet, fetchRateSets } from "./rates.js";
