@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- Local visual harness only — NOT part of the package build. Serves the built dist with React + Tailwind Play CDN. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>water-engine harness</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.3.1",
+        "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+        "react-dom/client": "https://esm.sh/react-dom@18.3.1/client"
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-100 p-4">
+  <div id="root-en"></div>
+  <div id="root-es" class="mt-8"></div>
+  <script type="module">
+    import React from "react";
+    import { createRoot } from "react-dom/client";
+    import { BillCalculator, en, es } from "./dist/ui.js";
+    import { FIXTURE_RATE_SETS } from "./dist/index.js";
+    createRoot(document.getElementById("root-en")).render(
+      React.createElement(BillCalculator, { dictionary: en, rateSets: FIXTURE_RATE_SETS, persistKey: "wc-harness-en" }),
+    );
+    createRoot(document.getElementById("root-es")).render(
+      React.createElement(BillCalculator, { dictionary: es, rateSets: FIXTURE_RATE_SETS }),
+    );
+  </script>
+</body>
+</html>
