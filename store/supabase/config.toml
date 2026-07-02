@@ -1,0 +1,4 @@
+project_id = "xyspexrszjvthlwawcnq"
+
+[functions.embed-docs]
+verify_jwt = true

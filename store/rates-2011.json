@@ -1,0 +1,118 @@
+{
+  "id": "2011_current",
+  "labelEn": "Current tariff (2011)",
+  "labelEs": "Tarifa vigente (2011)",
+  "status": "current",
+  "effective": "2011-07-06",
+  "source": "https://oficinavirtual.canalgestionlanzarote.es/api/public/descarga?nombre_fichero=Tarifas+Web.pdf",
+  "notes": "Consorcio del Agua de Lanzarote tariff, BOP no.87 06/07/2011 (agua) + BOP 28/10/2011 (saneamiento). Validated against 49/49 real bills to the cent (2 Jul 2026): 'bill-validated' figures are corpus-proven; 'official-sheet' figures come from the Canal Gestion Tarifas Web PDF where the corpus had no exercising bill. IGIC is applied per line: 0% on consumption and loss allocations, 7% on every quota and all sanitation.",
+  "igic": { "consumption": 0, "loss": 0, "quotas": 0.07, "sanitation": 0.07 },
+  "supply": {
+    "domestic_standard": {
+      "mode": "blocks",
+      "blocks": [
+        { "upTo": 10, "rate": 0.6 },
+        { "upTo": 30, "rate": 1.03 },
+        { "upTo": 40, "rate": 1.75 },
+        { "upTo": null, "rate": 3.69 }
+      ],
+      "source": "bill-validated"
+    },
+    "domestic_reduced": {
+      "mode": "blocks",
+      "blocks": [
+        { "upTo": 10, "rate": 0.51 },
+        { "upTo": 30, "rate": 0.71 },
+        { "upTo": 40, "rate": 1.2 },
+        { "upTo": null, "rate": 2.64 }
+      ],
+      "source": "official-sheet"
+    },
+    "industrial_tourist": { "mode": "flat", "flatRate": 2.91, "source": "bill-validated" },
+    "agri_registered": { "mode": "flat", "flatRate": 0.98, "source": "official-sheet" },
+    "agri_unregistered": { "mode": "flat", "flatRate": 1.12, "source": "official-sheet" },
+    "agri_over_assigned": { "mode": "flat", "flatRate": 2.69, "source": "official-sheet" },
+    "local_corporations": { "mode": "flat", "flatRate": 2.09, "source": "official-sheet" },
+    "reclaimed_agri": { "mode": "flat", "flatRate": 0.22, "source": "official-sheet" },
+    "reclaimed_gardens": { "mode": "flat", "flatRate": 0.3, "source": "official-sheet" },
+    "especial_lecturas": { "mode": "flat", "flatRate": 0.98, "source": "official-sheet" },
+    "urbanisations": { "mode": "flat", "flatRate": 3.21, "source": "official-sheet" },
+    "convenios": { "mode": "flat", "flatRate": 0.31, "source": "official-sheet" },
+    "cubas_domestic": { "mode": "flat", "flatRate": 1.01, "source": "official-sheet" },
+    "cubas_agricola": { "mode": "flat", "flatRate": 1.12, "source": "official-sheet" },
+    "cubas_industrial": { "mode": "flat", "flatRate": 2.91, "source": "official-sheet" }
+  },
+  "loss": {
+    "domestic_standard": {
+      "mode": "blocks",
+      "blocks": [
+        { "upTo": 10, "rate": 0.6 },
+        { "upTo": 30, "rate": 1.01 },
+        { "upTo": 40, "rate": 1.75 },
+        { "upTo": null, "rate": 2.09, "source": "official-sheet" }
+      ],
+      "source": "bill-validated",
+      "notes": "Top block 2.09 (NOT the supply 3.69) per the official sheet; the corpus never exercised a loss line above 40 m3."
+    },
+    "domestic_reduced": {
+      "mode": "blocks",
+      "blocks": [
+        { "upTo": 10, "rate": 0.51 },
+        { "upTo": 30, "rate": 0.71 },
+        { "upTo": 40, "rate": 1.2 },
+        { "upTo": null, "rate": 2.09 }
+      ],
+      "source": "official-sheet"
+    },
+    "industrial_tourist": { "mode": "flat", "flatRate": 1.88, "source": "bill-validated" }
+  },
+  "waterServiceQuota": {
+    "domestic": [
+      { "caliber": "13-15mm", "fee": 4.0, "source": "bill-validated" },
+      { "caliber": "20mm", "fee": 6.0, "source": "official-sheet" },
+      { "caliber": "25mm", "fee": 8.0, "source": "official-sheet" },
+      { "caliber": "30mm", "fee": 10.0, "source": "official-sheet" },
+      { "caliber": "40mm", "fee": 12.0, "source": "official-sheet" }
+    ],
+    "industrial": [
+      { "caliber": "13-15mm", "fee": 12.0, "source": "bill-validated" },
+      { "caliber": "20mm", "fee": 20.0, "source": "official-sheet" },
+      { "caliber": "25mm", "fee": 30.0, "source": "official-sheet" },
+      { "caliber": "30mm", "fee": 50.0, "source": "official-sheet" },
+      { "caliber": "40mm", "fee": 65.0, "source": "bill-validated" },
+      { "caliber": "50mm", "fee": 80.0, "source": "official-sheet" },
+      { "caliber": "65mm", "fee": 100.0, "source": "official-sheet" },
+      { "caliber": "80mm", "fee": 150.0, "source": "official-sheet" },
+      { "caliber": "100mm+", "fee": 200.0, "source": "official-sheet" }
+    ],
+    "corporations": [
+      { "caliber": "unica", "fee": 4.0, "source": "official-sheet" }
+    ]
+  },
+  "sanitation": {
+    "variable": {
+      "standard": { "rate": 0.52, "source": "bill-validated" },
+      "reduced": { "rate": 0.39, "source": "official-sheet" }
+    },
+    "fixed": {
+      "domestic": [
+        { "caliber": "13-15mm", "fee": 2.0, "source": "bill-validated" },
+        { "caliber": "20-40mm", "fee": 6.0, "source": "official-sheet" },
+        { "caliber": "50mm+", "fee": 12.0, "source": "official-sheet" }
+      ],
+      "industrial": [
+        { "caliber": "13-15mm", "fee": 2.0, "source": "bill-validated" },
+        { "caliber": "20mm", "fee": 4.0, "source": "official-sheet" },
+        { "caliber": "25-40mm", "fee": 10.0, "source": "bill-validated" },
+        { "caliber": "50-65mm", "fee": 20.0, "source": "official-sheet" },
+        { "caliber": "80mm", "fee": 30.0, "source": "official-sheet" },
+        { "caliber": "100mm+", "fee": 40.0, "source": "official-sheet" }
+      ],
+      "corporations": [
+        { "caliber": "13-15mm", "fee": 4.0, "source": "official-sheet" },
+        { "caliber": "20-40mm", "fee": 6.0, "source": "official-sheet" },
+        { "caliber": "50mm+", "fee": 12.0, "source": "official-sheet" }
+      ]
+    }
+  }
+}
