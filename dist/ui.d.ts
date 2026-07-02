@@ -39,6 +39,7 @@ interface CalculatorDictionary {
     totalLabel: string;
     proposedDelta: (delta: string) => string;
     blocksTitle: string;
+    blocksHelp: string;
     lossDisclaimer: string;
     estimateNote: string;
     sourceNote: string;

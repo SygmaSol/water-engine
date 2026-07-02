@@ -231,20 +231,22 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
     ] }),
     consumptionLine?.breakdown && consumptionLine.breakdown.length > 0 && state.category !== "industrial_tourist" && /* @__PURE__ */ jsxs("div", { className: "mt-4", children: [
       /* @__PURE__ */ jsx("h4", { className: "text-sm font-semibold", children: t.blocksTitle }),
-      /* @__PURE__ */ jsx("div", { className: "mt-2 space-y-1.5", children: consumptionLine.breakdown.map((b, i) => /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-xs", children: [
-        /* @__PURE__ */ jsxs("span", { className: "w-24 shrink-0 text-slate-500 tabular-nums", children: [
+      /* @__PURE__ */ jsx("p", { className: "mt-0.5 text-sm text-slate-600", children: t.blocksHelp }),
+      /* @__PURE__ */ jsx("div", { className: "mt-2 space-y-2", children: consumptionLine.breakdown.map((b, i) => /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-3 text-sm", children: [
+        /* @__PURE__ */ jsxs("span", { className: "w-28 shrink-0 text-slate-700 tabular-nums", children: [
           b.m3,
           " m\xB3 \xD7 ",
           euro(b.rate)
         ] }),
-        /* @__PURE__ */ jsx("div", { className: "h-3 flex-1 overflow-hidden rounded bg-slate-100", children: /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsx("div", { className: "h-4 flex-1 overflow-hidden rounded-full bg-slate-100", "aria-hidden": true, children: /* @__PURE__ */ jsx(
           "div",
           {
-            className: "h-full rounded bg-sky-500",
-            style: { width: `${Math.max(2, b.amount / maxBlockAmount * 100)}%` }
+            className: "h-full rounded-full bg-sky-500",
+            style: { width: `${Math.max(3, b.amount / maxBlockAmount * 100)}%` },
+            title: `${b.m3} m\xB3 \xD7 ${euro(b.rate)} = ${euro(b.amount)}`
           }
         ) }),
-        /* @__PURE__ */ jsx("span", { className: "w-16 shrink-0 text-right tabular-nums", children: euro(b.amount) })
+        /* @__PURE__ */ jsx("span", { className: "w-20 shrink-0 text-right font-semibold text-slate-900 tabular-nums", children: euro(b.amount) })
       ] }, i)) })
     ] }),
     lossM3 === 0 && /* @__PURE__ */ jsx("p", { className: "mt-4 text-xs text-slate-500", children: t.lossDisclaimer }),
@@ -261,7 +263,7 @@ var en = {
   title: "Lanzarote water bill calculator",
   intro: "Work out a bi-monthly water bill under the island's regulated tariff. Same prices for Canal Gesti\xF3n and Club Lanzarote.",
   categoryLabel: "What kind of supply is it?",
-  categoryHelp: "This is the biggest cost lever \u2014 holiday-let/commercial pays a much higher flat rate.",
+  categoryHelp: "The biggest cost lever: holiday-let/commercial pays a flat 2.91 \u20AC/m\xB3 from the very first m\xB3 (homes start at 0.60) plus a triple fixed quota.",
   categories: {
     domestic_standard: "Home (standard)",
     domestic_reduced: "Home (large family / pensioner reduced rate)",
@@ -289,6 +291,7 @@ var en = {
   totalLabel: "Total",
   proposedDelta: (d) => `Under the proposed +15% tariff this bill would be ${d} more.`,
   blocksTitle: "How your m\xB3 land in the price blocks",
+  blocksHelp: "Lanzarote water is priced in blocks: you pay each rate only on the m\xB3 that fall inside its block, so the first 10 m\xB3 are always the cheapest. The bars show where your usage landed.",
   lossDisclaimer: "Without the network-loss ('Diferencia') figure from a real bill, this estimate covers your own use only \u2014 many Lanzarote bills add a significant shared-loss charge on top.",
   estimateNote: "Estimate for guidance. Your bill's printed period dates and figures always win.",
   sourceNote: "Rates: Consorcio del Agua de Lanzarote tariff (BOP 06/07/2011), validated against real bills.",
@@ -305,7 +308,7 @@ var es = {
   title: "Calculadora de la factura de agua de Lanzarote",
   intro: "Calcula una factura bimestral con la tarifa regulada de la isla. Mismos precios para Canal Gesti\xF3n y Club Lanzarote.",
   categoryLabel: "\xBFQu\xE9 tipo de suministro es?",
-  categoryHelp: "Es el factor que m\xE1s cambia el precio: el uso tur\xEDstico/comercial paga una tarifa plana mucho m\xE1s alta.",
+  categoryHelp: "Es el factor que m\xE1s cambia el precio: el uso tur\xEDstico/comercial paga 2,91 \u20AC/m\xB3 desde el primer m\xB3 (las viviendas empiezan en 0,60) y el triple de cuota fija.",
   categories: {
     domestic_standard: "Vivienda (dom\xE9stica)",
     domestic_reduced: "Vivienda (familia numerosa / pensionista, tarifa reducida)",
@@ -333,6 +336,7 @@ var es = {
   totalLabel: "Total",
   proposedDelta: (d) => `Con la tarifa propuesta (+15%) esta factura subir\xEDa ${d}.`,
   blocksTitle: "C\xF3mo caen tus m\xB3 en los tramos",
+  blocksHelp: "El agua en Lanzarote se cobra por tramos: pagas cada precio solo por los m\xB3 que caen dentro de su tramo, as\xED que los primeros 10 m\xB3 son siempre los m\xE1s baratos. Las barras muestran d\xF3nde cay\xF3 tu consumo.",
   lossDisclaimer: "Sin el dato de p\xE9rdida de red ('Diferencia') de una factura real, esta estimaci\xF3n solo cubre tu consumo propio; muchas facturas de Lanzarote a\xF1aden un cargo de p\xE9rdidas comunitarias importante.",
   estimateNote: "Estimaci\xF3n orientativa. Mandan siempre las fechas y cifras impresas en tu factura.",
   sourceNote: "Tarifas: Consorcio del Agua de Lanzarote (BOP 06/07/2011), validadas con facturas reales.",

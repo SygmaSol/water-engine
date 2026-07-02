@@ -26,6 +26,7 @@ export interface CalculatorDictionary {
   totalLabel: string;
   proposedDelta: (delta: string) => string;
   blocksTitle: string;
+  blocksHelp: string;
   lossDisclaimer: string;
   estimateNote: string;
   sourceNote: string;
@@ -43,7 +44,8 @@ export const en: CalculatorDictionary = {
   title: "Lanzarote water bill calculator",
   intro: "Work out a bi-monthly water bill under the island's regulated tariff. Same prices for Canal Gestión and Club Lanzarote.",
   categoryLabel: "What kind of supply is it?",
-  categoryHelp: "This is the biggest cost lever — holiday-let/commercial pays a much higher flat rate.",
+  categoryHelp:
+    "The biggest cost lever: holiday-let/commercial pays a flat 2.91 €/m³ from the very first m³ (homes start at 0.60) plus a triple fixed quota.",
   categories: {
     domestic_standard: "Home (standard)",
     domestic_reduced: "Home (large family / pensioner reduced rate)",
@@ -72,6 +74,8 @@ export const en: CalculatorDictionary = {
   totalLabel: "Total",
   proposedDelta: (d) => `Under the proposed +15% tariff this bill would be ${d} more.`,
   blocksTitle: "How your m³ land in the price blocks",
+  blocksHelp:
+    "Lanzarote water is priced in blocks: you pay each rate only on the m³ that fall inside its block, so the first 10 m³ are always the cheapest. The bars show where your usage landed.",
   lossDisclaimer:
     "Without the network-loss ('Diferencia') figure from a real bill, this estimate covers your own use only — many Lanzarote bills add a significant shared-loss charge on top.",
   estimateNote: "Estimate for guidance. Your bill's printed period dates and figures always win.",
@@ -90,7 +94,8 @@ export const es: CalculatorDictionary = {
   title: "Calculadora de la factura de agua de Lanzarote",
   intro: "Calcula una factura bimestral con la tarifa regulada de la isla. Mismos precios para Canal Gestión y Club Lanzarote.",
   categoryLabel: "¿Qué tipo de suministro es?",
-  categoryHelp: "Es el factor que más cambia el precio: el uso turístico/comercial paga una tarifa plana mucho más alta.",
+  categoryHelp:
+    "Es el factor que más cambia el precio: el uso turístico/comercial paga 2,91 €/m³ desde el primer m³ (las viviendas empiezan en 0,60) y el triple de cuota fija.",
   categories: {
     domestic_standard: "Vivienda (doméstica)",
     domestic_reduced: "Vivienda (familia numerosa / pensionista, tarifa reducida)",
@@ -119,6 +124,8 @@ export const es: CalculatorDictionary = {
   totalLabel: "Total",
   proposedDelta: (d) => `Con la tarifa propuesta (+15%) esta factura subiría ${d}.`,
   blocksTitle: "Cómo caen tus m³ en los tramos",
+  blocksHelp:
+    "El agua en Lanzarote se cobra por tramos: pagas cada precio solo por los m³ que caen dentro de su tramo, así que los primeros 10 m³ son siempre los más baratos. Las barras muestran dónde cayó tu consumo.",
   lossDisclaimer:
     "Sin el dato de pérdida de red ('Diferencia') de una factura real, esta estimación solo cubre tu consumo propio; muchas facturas de Lanzarote añaden un cargo de pérdidas comunitarias importante.",
   estimateNote: "Estimación orientativa. Mandan siempre las fechas y cifras impresas en tu factura.",

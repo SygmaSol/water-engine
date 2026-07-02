@@ -284,19 +284,21 @@ export function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCat
       {consumptionLine?.breakdown && consumptionLine.breakdown.length > 0 && state.category !== "industrial_tourist" && (
         <div className="mt-4">
           <h4 className="text-sm font-semibold">{t.blocksTitle}</h4>
-          <div className="mt-2 space-y-1.5">
+          <p className="mt-0.5 text-sm text-slate-600">{t.blocksHelp}</p>
+          <div className="mt-2 space-y-2">
             {consumptionLine.breakdown.map((b, i) => (
-              <div key={i} className="flex items-center gap-2 text-xs">
-                <span className="w-24 shrink-0 text-slate-500 tabular-nums">
+              <div key={i} className="flex items-center gap-3 text-sm">
+                <span className="w-28 shrink-0 text-slate-700 tabular-nums">
                   {b.m3} m³ × {euro(b.rate)}
                 </span>
-                <div className="h-3 flex-1 overflow-hidden rounded bg-slate-100">
+                <div className="h-4 flex-1 overflow-hidden rounded-full bg-slate-100" aria-hidden>
                   <div
-                    className="h-full rounded bg-sky-500"
-                    style={{ width: `${Math.max(2, (b.amount / maxBlockAmount) * 100)}%` }}
+                    className="h-full rounded-full bg-sky-500"
+                    style={{ width: `${Math.max(3, (b.amount / maxBlockAmount) * 100)}%` }}
+                    title={`${b.m3} m³ × ${euro(b.rate)} = ${euro(b.amount)}`}
                   />
                 </div>
-                <span className="w-16 shrink-0 text-right tabular-nums">{euro(b.amount)}</span>
+                <span className="w-20 shrink-0 text-right font-semibold text-slate-900 tabular-nums">{euro(b.amount)}</span>
               </div>
             ))}
           </div>
