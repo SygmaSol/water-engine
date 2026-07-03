@@ -65,7 +65,7 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
   const calibers = state.category === "industrial_tourist" ? INDUSTRIAL_CALIBERS : DOMESTIC_CALIBERS;
   const consumptionLine = bill.lines.find((l) => l.kind === "consumption");
   const maxBlockAmount = Math.max(...consumptionLine?.breakdown?.map((b) => b.amount) ?? [1], 0.01);
-  return /* @__PURE__ */ jsxs("div", { className: `mx-auto w-full max-w-xl rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm sm:p-6 ${className ?? ""}`, children: [
+  return /* @__PURE__ */ jsxs("div", { className: `mx-auto w-full max-w-xl rounded-lg border border-t-4 border-slate-200 border-t-[hsl(33,93%,54%)] bg-white p-4 text-slate-900 shadow-sm sm:p-6 ${className ?? ""}`, children: [
     /* @__PURE__ */ jsx("h2", { className: "text-xl font-semibold", children: t.title }),
     /* @__PURE__ */ jsx("p", { className: "mt-1 text-sm text-slate-600", children: t.intro }),
     /* @__PURE__ */ jsxs("fieldset", { className: "mt-5", children: [
@@ -74,7 +74,7 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
       /* @__PURE__ */ jsx("div", { className: "grid gap-2", children: Object.keys(t.categories).map((c) => /* @__PURE__ */ jsxs(
         "label",
         {
-          className: `flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-sm ${state.category === c ? "border-sky-500 bg-sky-50 font-medium" : "border-slate-200 hover:border-slate-300"}`,
+          className: `flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-sm ${state.category === c ? "border-[hsl(33,93%,54%)] bg-[hsl(33,93%,96%)] font-medium" : "border-slate-200 hover:border-slate-300"}`,
           children: [
             /* @__PURE__ */ jsx(
               "input",
@@ -84,7 +84,7 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
                 value: c,
                 checked: state.category === c,
                 onChange: () => setCategory(c),
-                className: "h-4 w-4 accent-sky-600"
+                className: "h-4 w-4 accent-[hsl(33,93%,54%)]"
               }
             ),
             t.categories[c]
@@ -106,7 +106,7 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
             max: 150,
             value: state.m3,
             onChange: (e) => set("m3", Number(e.target.value)),
-            className: "h-2 w-full accent-sky-600"
+            className: "h-2 w-full accent-[hsl(33,93%,54%)]"
           }
         ),
         /* @__PURE__ */ jsx(
@@ -161,7 +161,7 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
       /* @__PURE__ */ jsx("div", { className: "mt-1 grid gap-2 sm:grid-cols-2", children: [true, false].map((v) => /* @__PURE__ */ jsxs(
         "label",
         {
-          className: `flex cursor-pointer items-center gap-2 rounded-xl border p-2.5 text-sm ${state.onMainsSewer === v ? "border-sky-500 bg-sky-50 font-medium" : "border-slate-200"}`,
+          className: `flex cursor-pointer items-center gap-2 rounded-xl border p-2.5 text-sm ${state.onMainsSewer === v ? "border-[hsl(33,93%,54%)] bg-[hsl(33,93%,96%)] font-medium" : "border-slate-200"}`,
           children: [
             /* @__PURE__ */ jsx(
               "input",
@@ -170,7 +170,7 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
                 name: `${uid}-sewer`,
                 checked: state.onMainsSewer === v,
                 onChange: () => set("onMainsSewer", v),
-                className: "h-4 w-4 accent-sky-600"
+                className: "h-4 w-4 accent-[hsl(33,93%,54%)]"
               }
             ),
             v ? t.sewerOn : t.sewerOff
@@ -202,7 +202,7 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
         {
           type: "button",
           onClick: () => set("rateSetId", id),
-          className: `flex-1 rounded-lg px-3 py-1.5 ${state.rateSetId === id ? "bg-sky-600 font-medium text-white" : "text-slate-600"}`,
+          className: `flex-1 rounded-lg px-3 py-1.5 ${state.rateSetId === id ? "bg-[hsl(33,93%,54%)] font-medium text-white" : "text-slate-600"}`,
           children: id === "2011_current" ? t.versions.current : t.versions.proposed
         },
         id
@@ -241,7 +241,7 @@ function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, 
         /* @__PURE__ */ jsx("div", { className: "h-4 flex-1 overflow-hidden rounded-full bg-slate-100", "aria-hidden": true, children: /* @__PURE__ */ jsx(
           "div",
           {
-            className: "h-full rounded-full bg-sky-500",
+            className: "h-full rounded-full bg-[hsl(33,93%,54%)]",
             style: { width: `${Math.max(3, b.amount / maxBlockAmount * 100)}%` },
             title: `${b.m3} m\xB3 \xD7 ${euro(b.rate)} = ${euro(b.amount)}`
           }
