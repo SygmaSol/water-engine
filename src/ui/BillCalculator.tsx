@@ -50,11 +50,17 @@ const euro = (n: number) =>
   new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(n);
 
 export function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, className }: BillCalculatorProps) {
-  const [state, setState] = useState<CalcState>(() => ({
-    ...DEFAULTS,
-    ...(defaultCategory ? { category: defaultCategory } : {}),
-    ...loadPersisted(persistKey),
-  }));
+  const [state, setState] = useState<CalcState>(() => {
+    // Restore sticky inputs (m3, biller, caliber...) but NEVER the rate type: every visit starts on
+    // the standard home rate so nobody reads a reduced/holiday-let figure without choosing it.
+    const persisted = loadPersisted(persistKey);
+    delete persisted.category;
+    return {
+      ...DEFAULTS,
+      ...(defaultCategory ? { category: defaultCategory } : {}),
+      ...persisted,
+    };
+  });
 
   useEffect(() => {
     if (persistKey && typeof window !== "undefined") {

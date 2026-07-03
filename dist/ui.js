@@ -27,11 +27,15 @@ function loadPersisted(key) {
 }
 var euro = (n) => new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(n);
 function BillCalculator({ dictionary: t, rateSets, persistKey, defaultCategory, className }) {
-  const [state, setState] = useState(() => ({
-    ...DEFAULTS,
-    ...defaultCategory ? { category: defaultCategory } : {},
-    ...loadPersisted(persistKey)
-  }));
+  const [state, setState] = useState(() => {
+    const persisted = loadPersisted(persistKey);
+    delete persisted.category;
+    return {
+      ...DEFAULTS,
+      ...defaultCategory ? { category: defaultCategory } : {},
+      ...persisted
+    };
+  });
   useEffect(() => {
     if (persistKey && typeof window !== "undefined") {
       window.localStorage.setItem(persistKey, JSON.stringify(state));

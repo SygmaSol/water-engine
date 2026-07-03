@@ -1,6 +1,6 @@
 {
   "name": "water-engine",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Lanzarote water tariff + estimate engine (validated two-stream model). Rate numbers live in the Water Knowledge store; this package is the maths.",
   "repository": "github:SygmaSol/water-engine",
   "type": "module",
