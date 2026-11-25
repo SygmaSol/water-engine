@@ -16,7 +16,6 @@ create table public.knowledge_docs (
   audience text not null check (audience in ('public','leakguard','both')),
   lang text not null default 'en' check (lang in ('en','es')),
   tags text[] not null default '{}',
-  embedding vector(1024),          -- voyage-3.5-lite (until the Voyage 4 move's drop)
   embedding_v4 vector(1024),       -- voyage-4-lite (25 Nov 2026)
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -80,20 +79,13 @@ end $$;
 create or replace function public.dirty_embedding_on_content_change() returns trigger
 language plpgsql as $$
 begin
-  -- each space is nulled on its own test, so the seed's own path (body changed together with
-  -- embedding: null) still dirties embedding_v4
-  if (new.body is distinct from old.body or new.title is distinct from old.title) then
-    if new.embedding is not distinct from old.embedding then
-      new.embedding = null;            -- NULL marks the row for re-embedding (voyage-3.5-lite)
-    end if;
-    if new.embedding_v4 is not distinct from old.embedding_v4 then
-      new.embedding_v4 = null;         -- and for voyage-4-lite
-    end if;
+  if (new.body is distinct from old.body or new.title is distinct from old.title)
+     and new.embedding_v4 is not distinct from old.embedding_v4 then
+    new.embedding_v4 = null;           -- NULL marks the row for re-embedding (voyage-4-lite, embed-docs)
   end if;
   new.updated_at = now();
   return new;
 end $$;
-
 create trigger knowledge_docs_touch before update on public.knowledge_docs
   for each row execute function public.dirty_embedding_on_content_change();
 create trigger water_tariffs_touch before update on public.water_tariffs
@@ -107,21 +99,8 @@ create trigger typical_use_touch before update on public.typical_use
 -- call can NEVER surface 'leakguard' docs regardless of p_audience. p_audience narrows further
 -- within what the caller may see ('all' = no extra filter, useful to the service role only).
 -- ---------------------------------------------------------------------------
-create or replace function public.match_knowledge(
-  query_embedding vector(1024),
-  p_audience text default 'public',
-  match_count int default 5
-) returns table (slug text, title text, body text, audience text, tags text[], similarity double precision)
-language sql stable
-as $$
-  select k.slug, k.title, k.body, k.audience, k.tags,
-         1 - (k.embedding <=> query_embedding) as similarity
-  from public.knowledge_docs k
-  where k.embedding is not null
-    and (p_audience = 'all' or k.audience = p_audience or k.audience = 'both')
-  order by k.embedding <=> query_embedding
-  limit least(greatest(match_count, 1), 20)
-$$;
+-- match_knowledge (voyage-3.5-lite) was dropped on 25 Nov 2026: match_knowledge_v4 below is the search.
+
 
 -- match_knowledge on the voyage-4-lite column. SECURITY INVOKER (the default), as match_knowledge:
 -- RLS on knowledge_docs applies to the caller, so an anon call never surfaces 'leakguard' docs.

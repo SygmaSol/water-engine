@@ -1,8 +1,6 @@
-// Embed-on-write pipeline for the Water Knowledge store: embeds knowledge_docs rows that are
-// missing a vector in either space (or an explicit slug list), input_type "document", 1024-dim:
-//   embedding     voyage-3.5-lite  (read by match_knowledge until each reader switches)
-//   embedding_v4  voyage-4-lite    (read by match_knowledge_v4; Voyage 4 move, 25 Nov 2026)
-// A row gets only the space it is missing, so the backfill never rewrites an old vector.
+// Embed-on-write pipeline for the Water Knowledge store: embeds knowledge_docs rows with no vector (or an explicit slug
+// list) into embedding_v4, voyage-4-lite, input_type "document", 1024-dim, read by match_knowledge_v4. The voyage-3.5-lite
+// column and match_knowledge were dropped on 25 Nov 2026 once both water assistants read v4 (the Voyage 4 move).
 // A row edited while this runs is not written (its updated_at no longer matches what was read);
 // the trigger has already nulled it, so the next run embeds the new text.
 // Auth: service-role bearer ONLY. Anon/authenticated calls are rejected.
@@ -32,16 +30,15 @@ Deno.serve(async (req) => {
   const db = createClient(Deno.env.get("SUPABASE_URL")!, serviceKey);
   const { slugs } = await req.json().catch(() => ({ slugs: undefined }));
 
-  let query = db.from("knowledge_docs").select("id, slug, title, body, updated_at, embedding, embedding_v4");
+  let query = db.from("knowledge_docs").select("id, slug, title, body, updated_at, embedding_v4");
   query = Array.isArray(slugs) && slugs.length
     ? query.in("slug", slugs)
-    : query.or("embedding.is.null,embedding_v4.is.null");
+    : query.is("embedding_v4", null);
   const { data: docs, error } = await query;
   if (error) return json({ error: error.message }, 500);
   if (!docs || docs.length === 0) return json({ ok: true, embedded: 0 });
 
   const SPACES = [
-    { column: "embedding", model: "voyage-3.5-lite" },
     { column: "embedding_v4", model: "voyage-4-lite" },
   ] as const;
   const forced = Array.isArray(slugs) && slugs.length > 0;
