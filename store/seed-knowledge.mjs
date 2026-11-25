@@ -150,7 +150,7 @@ const url = process.env.WK_URL;
 const key = process.env.WK_SERVICE_KEY;
 if (!url || !key) throw new Error("Set WK_URL + WK_SERVICE_KEY");
 
-const rows = docs.map((d) => ({ ...d, lang: "en", embedding: null }));
+const rows = docs.map((d) => ({ ...d, lang: "en", embedding_v4: null }));   // embed-docs fills it (voyage-4-lite)
 const res = await fetch(`${url}/rest/v1/knowledge_docs?on_conflict=slug`, {
   method: "POST",
   headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" },
