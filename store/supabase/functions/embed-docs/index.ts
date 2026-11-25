@@ -1,7 +1,10 @@
-// Embed-on-write pipeline for the Water Knowledge store: embeds knowledge_docs rows whose
-// embedding IS NULL (or an explicit slug list) with Voyage voyage-3.5-lite, 1024-dim,
-// input_type "document" — byte-identical parameters to the CC's embedding pipeline, so query
-// embeddings (input_type "query") land in the same space.
+// Embed-on-write pipeline for the Water Knowledge store: embeds knowledge_docs rows that are
+// missing a vector in either space (or an explicit slug list), input_type "document", 1024-dim:
+//   embedding     voyage-3.5-lite  (read by match_knowledge until each reader switches)
+//   embedding_v4  voyage-4-lite    (read by match_knowledge_v4; Voyage 4 move, 25 Nov 2026)
+// A row gets only the space it is missing, so the backfill never rewrites an old vector.
+// A row edited while this runs is not written (its updated_at no longer matches what was read);
+// the trigger has already nulled it, so the next run embeds the new text.
 // Auth: service-role bearer ONLY. Anon/authenticated calls are rejected.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
@@ -29,38 +32,62 @@ Deno.serve(async (req) => {
   const db = createClient(Deno.env.get("SUPABASE_URL")!, serviceKey);
   const { slugs } = await req.json().catch(() => ({ slugs: undefined }));
 
-  let query = db.from("knowledge_docs").select("id, slug, title, body");
-  query = Array.isArray(slugs) && slugs.length ? query.in("slug", slugs) : query.is("embedding", null);
+  let query = db.from("knowledge_docs").select("id, slug, title, body, updated_at, embedding, embedding_v4");
+  query = Array.isArray(slugs) && slugs.length
+    ? query.in("slug", slugs)
+    : query.or("embedding.is.null,embedding_v4.is.null");
   const { data: docs, error } = await query;
   if (error) return json({ error: error.message }, 500);
   if (!docs || docs.length === 0) return json({ ok: true, embedded: 0 });
 
+  const SPACES = [
+    { column: "embedding", model: "voyage-3.5-lite" },
+    { column: "embedding_v4", model: "voyage-4-lite" },
+  ] as const;
+  const forced = Array.isArray(slugs) && slugs.length > 0;
   const embedded: string[] = [];
+  const skipped: string[] = [];
   for (let i = 0; i < docs.length; i += 96) {
     const chunk = docs.slice(i, i + 96);
-    const resp = await fetch("https://api.voyageai.com/v1/embeddings", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Deno.env.get("VOYAGE_API_KEY")}`,
-      },
-      body: JSON.stringify({
-        input: chunk.map((d) => `${d.title}\n\n${d.body}`),
-        model: "voyage-3.5-lite",
-        input_type: "document",
-        output_dimension: 1024,
-      }),
-    });
-    if (!resp.ok) return json({ error: `voyage ${resp.status}: ${await resp.text()}` }, 502);
-    const { data } = await resp.json();
-    for (let j = 0; j < chunk.length; j++) {
-      const { error: uerr } = await db
+    // one Voyage call per space, for the rows of this chunk that need that space
+    const vectors = new Map<string, Record<string, string>>();
+    for (const sp of SPACES) {
+      const need = chunk.filter((d) => forced || d[sp.column] == null);
+      if (need.length === 0) continue;
+      const resp = await fetch("https://api.voyageai.com/v1/embeddings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Deno.env.get("VOYAGE_API_KEY")}`,
+        },
+        body: JSON.stringify({
+          input: need.map((d) => `${d.title}\n\n${d.body}`),
+          model: sp.model,
+          input_type: "document",
+          output_dimension: 1024,
+        }),
+      });
+      if (!resp.ok) return json({ error: `voyage ${sp.model} ${resp.status}: ${await resp.text()}`, embedded }, 502);
+      const { data } = await resp.json();
+      need.forEach((d, j) => {
+        const row = vectors.get(d.id) ?? {};
+        row[sp.column] = JSON.stringify(data[j].embedding);
+        vectors.set(d.id, row);
+      });
+    }
+    for (const d of chunk) {
+      const update = vectors.get(d.id);
+      if (!update) continue;
+      // written only if the row is unchanged since it was read
+      const { data: done, error: uerr } = await db
         .from("knowledge_docs")
-        .update({ embedding: JSON.stringify(data[j].embedding) })
-        .eq("id", chunk[j].id);
+        .update(update)
+        .eq("id", d.id)
+        .eq("updated_at", d.updated_at)
+        .select("id");
       if (uerr) return json({ error: uerr.message, embedded }, 500);
-      embedded.push(chunk[j].slug);
+      (done && done.length ? embedded : skipped).push(d.slug);
     }
   }
-  return json({ ok: true, embedded: embedded.length, slugs: embedded });
+  return json({ ok: true, embedded: embedded.length, slugs: embedded, skipped_edited: skipped });
 });
