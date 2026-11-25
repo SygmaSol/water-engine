@@ -1,0 +1,15 @@
+{
+  "why": "Fixed questions for the Water Knowledge search. Each must return its expected doc first (top 1) at its audience. Used to prove a model move (Voyage 3.5-lite to 4-lite, Nov 2026) changes nothing a customer sees; run with store/fixed-check.mjs.",
+  "questions": [
+    {"q": "what is the diferencia contador general on my bill", "audience": "public", "expect": "diferencia-contador-general-explained"},
+    {"q": "why do I get two water bills, one from Canal and one from Club Lanzarote", "audience": "public", "expect": "two-billers-one-tariff"},
+    {"q": "how can I use less water and lower my bill", "audience": "public", "expect": "water-saving-lanzarote"},
+    {"q": "my pool level keeps dropping, is it leaking or just evaporating", "audience": "public", "expect": "leak-vs-evaporation-pool"},
+    {"q": "am I entitled to the cheaper tariff as a pensioner", "audience": "public", "expect": "reduced-tariff-eligibility"},
+    {"q": "why is there no sewerage charge on my bill", "audience": "public", "expect": "sewers-vs-septic-tanks"},
+    {"q": "does a shutoff visit include finding and fixing the leak", "audience": "all", "expect": "shutoff-visits-and-what-is-included"},
+    {"q": "why did my leak alert take hours to come through", "audience": "all", "expect": "alert-speed-and-device-call-ins"},
+    {"q": "I have an aljibe and a pump, how do I read my water use", "audience": "all", "expect": "tank-aljibe-pump-supply"},
+    {"q": "I got a LeakGuard alert, what does it mean and what should I do", "audience": "all", "expect": "what-your-device-alert-means"}
+  ]
+}
